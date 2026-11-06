@@ -62,17 +62,17 @@ INSERT INTO CATEGORIE (id_categorie, libelle) VALUES
 (4,'Autres');
 
 INSERT INTO OUTIL (id_outil, nom, logo, type) VALUES
-(1,'Figma', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\Figma.svg', 'vectoriel'),
-(2, 'Krita', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\krita.svg', 'vectoriel'),
-(3, 'Affinity', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\Affinity.svg', 'vectoriel'),
-(4, 'Ibis Paint', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\ibispaint.png', 'vectoriel'),
-(5, 'ChatGPT', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\ChatGPT.svg', 'IA'),
-(6, 'Claude', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\Claude.svg', 'IA'),
-(7, 'Mistral', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\Mistral.svg', 'IA'),
-(8, 'Astro', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\astro.svg', 'développement'),
-(9, 'Tailwind', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\Tailwind.png', 'développement'),
-(10,'Infomaniak', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\InfoManiak.png', 'développement'),
-(11, 'DaisyUI', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\DaisyUI.png','développement');
+(1, 'Figma', 'Figma.svg', 'vectoriel'),
+(2, 'Krita', 'krita.svg', 'vectoriel'),
+(3, 'Affinity', 'Affinity.svg', 'vectoriel'),
+(4, 'Ibis Paint', 'ibispaint.png', 'vectoriel'),
+(5, 'ChatGPT', 'ChatGPT.svg', 'IA'),
+(6, 'Claude', 'Claude.svg', 'IA'),
+(7, 'Mistral', 'Mistral.svg', 'IA'),
+(8, 'Astro', 'astro.svg', 'développement'),
+(9, 'Tailwind', 'Tailwind.png', 'développement'),
+(10, 'Infomaniak', 'InfoManiak.png', 'développement'),
+(11, 'DaisyUI', 'DaisyUI.png', 'développement');
 
 INSERT INTO COLLABORATEUR (id_collaborateur, nom)
 VALUES
@@ -81,13 +81,13 @@ VALUES
 
 INSERT INTO PROJET (id_projet, titre, annee, description_courte, image_couverture, alt_image, en_groupe, contexte, demande, reponse, id_categorie)
 VALUES
-(1, 'Fonds d''écrans', 2025, 'La personnalisation de plusieurs environnements.', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\fondEcran.avif', 'Montagnes noires devant une lune sur fond vert', 0,
+(1, 'Fonds d''écrans', 2025, 'La personnalisation de plusieurs environnements.', 'fondEcran.avif', 'Montagnes noires devant une lune sur fond vert', 0,
      'Projet personnel, j’avais besoin d’un environnement plus personnalisé.', 'Créer 3 fonds sur le thème de la nature.', 'Une série d illustrations vectorielles aux aplats de couleurs.', 4),
-(2, 'Onyoz', 2026, 'Une expérience web pour aidez les étudiants à se restaurer convenablement.', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\Onyoz.avif', 'Logo Onyoz avec un oignon sur fond rouge-bordeaux', 1,
+(2, 'Onyoz', 2026, 'Une expérience web pour aidez les étudiants à se restaurer convenablement.', 'Onyoz.avif', 'Logo Onyoz avec un oignon sur fond rouge-bordeaux', 1,
      'Un projet scolaire en groupe, qui à permis de concrétiser mes apprentissages.', 'L’objectif était de proposé, à partir d’un idée innovante d’élèves, un site web plus poussé. Ici Onyoz à pour objectif d’aider les étudiants à trouver de quoi se restaurer facilement, proche d’eux mais aussi dans leur budget.', 'Un positionnement clair, une palette minimaliste mais justifier, qui permet d’être reconnu facilement, une identiter simple. Tous ses ingrédients pour développer un site crédible et fonctionnel.', 2),
-(3, 'Flyers A3P90', 2026, 'Création d''un flyers pour une association Belfortaine.', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\A3P90.avif', 'Flyer vert de l''association A3P90 avec des enfants', 0,
+(3, 'Flyers A3P90', 2026, 'Création d''un flyers pour une association Belfortaine.', 'A3P90.avif', 'Flyer vert de l''association A3P90 avec des enfants', 0,
      'L''association ma contacter pour refaire leur flyer qui ne leur convenait plus.', 'Créer une communication visuelle à partir d''une demande et de contraintes.', 'Un flyer vert aux formes arrondies mettant en avant le parrainage.', 3),
-(4, 'Badges Scouts', 2026, 'Création de badge en vue d''un regroupement de Scout pour lancer une nouvelle année.', '\MMI_2\S3_Projet-ind\En-Explo\src\assets\Badge.avif', 'Plusieurs badges ronds de couleurs avec une empreinte de patte', 0,
+(4, 'Badges Scouts', 2026, 'Création de badge en vue d''un regroupement de Scout pour lancer une nouvelle année.', 'Badge.avif', 'Plusieurs badges ronds de couleurs avec une empreinte de patte', 0,
      'En vue d''rassemblement annuel sur le thème du livre de la jungle, je me suis mise au défis de faire des badges avec un temps de création relativement court.', 'Créer des badges pour un thème donné.', 'Septs badges colorés, un par unité.', 4);
 
 INSERT INTO ACTION (id_projet, numero, titre, texte)

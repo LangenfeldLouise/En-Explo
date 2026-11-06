@@ -1,0 +1,187 @@
+<section
+	id="hero"
+	class="relative isolate h-[100svh] min-h-[100svh] w-full overflow-hidden bg-black text-white"
+	aria-label="Animation d'introduction"
+>
+	<canvas
+		id="hero-lottie"
+		class="absolute inset-0 h-full w-full"
+		aria-hidden="true"></canvas>
+
+	<button
+		id="hero-advance"
+		type="button"
+		disabled
+		class="absolute inset-0 z-10 w-full cursor-pointer appearance-none border-0 bg-transparent text-inherit focus-visible:outline-2 focus-visible:outline-offset-[-0.5rem] focus-visible:outline-white"
+		aria-label="Faire avancer l'animation d'introduction"
+	>
+		<span
+			id="hero-instruction"
+			class="pointer-events-none absolute bottom-24 left-1/2 -translate-x-1/2 rounded-full bg-black/50 px-5 py-3 font-label text-sm uppercase tracking-widest backdrop-blur-sm sm:text-base"
+		>
+			Cliquez pour commencer
+		</span>
+	</button>
+
+	<a
+		id="scroll-down"
+		href="#main-content"
+		class="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 font-label text-sm uppercase tracking-widest"
+	>
+		<span>Défiler</span>
+		<svg
+			class="h-6 w-6 animate-bounce"
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+			aria-hidden="true"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+		</svg>
+	</a>
+
+	<p
+		id="hero-status"
+		class="sr-only"
+		role="status"
+		aria-live="polite"
+	>
+		Cliquez pour lancer l'animation ou défiler immédiatement vers le contenu.
+	</p>
+</section>
+
+<script>
+	import { DotLottie } from "@lottiefiles/dotlottie-web";
+
+	const SRC = "/animations/gifstartmontagne.lottie";
+	const INTRO_END_FRAME = 42;
+	const ANIMATION_END_FRAME = 107;
+	const SEEN_KEY = "portfolio-intro-seen";
+
+	const canvas = document.getElementById("hero-lottie") as HTMLCanvasElement;
+	const advanceButton = document.getElementById(
+		"hero-advance",
+	) as HTMLButtonElement;
+	const instruction = document.getElementById(
+		"hero-instruction",
+	) as HTMLSpanElement;
+	const status = document.getElementById("hero-status") as HTMLParagraphElement;
+
+	let ready = false;
+	let phase: "ready" | "transition" | "waiting" | "final" | "done" = "ready";
+	let finished = false;
+
+	function hasSeenIntro() {
+		try {
+			return window.localStorage.getItem(SEEN_KEY) === "true";
+		} catch (error) {
+			console.warn("Impossible de lire la préférence d'animation.", error);
+			return false;
+		}
+	}
+
+	function rememberIntro() {
+		try {
+			window.localStorage.setItem(SEEN_KEY, "true");
+		} catch (error) {
+			console.warn("Impossible de mémoriser l'animation.", error);
+		}
+	}
+
+	function finishIntro(message: string) {
+		if (finished) return;
+		finished = true;
+		phase = "done";
+		advanceButton.disabled = true;
+		advanceButton.classList.add("hidden");
+		status.textContent = message;
+	}
+
+	function failAnimation(error: unknown) {
+		console.error("Impossible de lancer l'animation d'introduction.", error);
+		finishIntro("L'animation n'a pas pu être lancée. Vous pouvez continuer.");
+	}
+
+	const dotLottie = new DotLottie({
+		canvas,
+		src: SRC,
+		autoplay: false,
+		loop: false,
+		layout: { fit: "cover", align: [0.5, 0.5] },
+		renderConfig: { autoResize: true },
+	});
+
+	dotLottie.addEventListener("ready", () => {
+		try {
+			ready = true;
+			if (hasSeenIntro()) {
+				dotLottie.setFrame(ANIMATION_END_FRAME);
+				finishIntro("Animation déjà visionnée. Vous pouvez défiler.");
+			} else {
+				dotLottie.setFrame(0);
+				advanceButton.disabled = false;
+			}
+		} catch (error) {
+			failAnimation(error);
+		}
+	});
+
+	dotLottie.addEventListener("complete", () => {
+		if (phase === "transition") {
+			phase = "waiting";
+			dotLottie.setFrame(INTRO_END_FRAME);
+			advanceButton.disabled = false;
+			instruction.textContent = "Cliquez pour découvrir le paysage";
+			status.textContent =
+				"Transition terminée. Cliquez une seconde fois pour lancer la dernière séquence.";
+		} else if (phase === "final") {
+			rememberIntro();
+			finishIntro("Animation terminée. Vous pouvez défiler à tout moment.");
+		}
+	});
+
+	dotLottie.addEventListener("loadError", (event) => {
+		failAnimation(event.error);
+	});
+
+	dotLottie.addEventListener("renderError", (event) => {
+		failAnimation(event.error);
+	});
+
+	advanceButton.addEventListener("click", () => {
+		if (!ready || finished) return;
+
+		if (phase === "ready") {
+			try {
+				rememberIntro();
+				phase = "transition";
+				advanceButton.disabled = true;
+				instruction.textContent = "L'animation commence…";
+				status.textContent = "Transition en cours.";
+				dotLottie.setSegment(0, INTRO_END_FRAME);
+				dotLottie.setLoop(false);
+				dotLottie.play();
+			} catch (error) {
+				failAnimation(error);
+			}
+			return;
+		}
+		if (phase !== "waiting") return;
+
+		try {
+			phase = "final";
+			advanceButton.disabled = true;
+			instruction.textContent = "Presque terminé…";
+			status.textContent = "Dernière séquence de l'animation en cours.";
+			dotLottie.setSegment(INTRO_END_FRAME, ANIMATION_END_FRAME);
+			dotLottie.setLoop(false);
+			dotLottie.play();
+		} catch (error) {
+			failAnimation(error);
+		}
+	});
+</script>

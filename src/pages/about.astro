@@ -1,0 +1,231 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import { Image } from "astro:assets";
+import { getOutilsByType } from "../lib/db";
+import { resolveAsset } from "../lib/assets";
+
+import heroAbout from "../assets/hero_about_02.jpg";
+import sapin from "../assets/item/Sapin.svg";
+import lac from "../assets/item/Lac.svg";
+import formes from "../assets/forme.svg";
+import aplats from "../assets/aplat.svg";
+import ombre from "../assets/ombre.svg";
+
+const outilsVectoriel = getOutilsByType("vectoriel");
+const outilsIA = getOutilsByType("IA");
+
+const parcours = [
+	{
+		date: "2025 - aujourd’hui",
+		titre: "Étudiante en MMI",
+		texte: "Apprentissage sur les métiers du multimédia.",
+	},
+	{
+		date: "Octobre 2026",
+		titre: "Kakémono A3P90",
+		texte: "Création d’une communication visuelle sur un support inconnu, avec des consignes et une identité à respecter.",
+	},
+	{
+		date: "Septembre 2026",
+		titre: "Badges scouts",
+		texte: "Création d’éléments en rapport avec un thème et l’association. Expérimentation d’un support inhabituel.",
+	},
+	{
+		date: "Mars 2026",
+		titre: "Flyers A3P90",
+		texte: "Création d’une communication visuelle à partir d’une demande et de contraintes.",
+	},
+	{
+		date: "Décembre 2024",
+		titre: "Stage chez un infographiste indépendant à Strasbourg",
+		texte: "Découverte d’une autre façon de vivre son emploi et de ce que signifie concrètement le travail d’un infographiste.",
+	},
+	{
+		date: "Décembre 2022",
+		titre: "Stage d’infographie à l’école d’art Jacot de Belfort",
+		texte: "Premier pas dans le design visuel : création d’une carte de vœux et prise en main de Photoshop et Illustrator.",
+	},
+];
+---
+
+<Layout title="À propos - Louise Langenfeld">
+	<Header />
+	<section class="relative isolate border-b-2 border-black">
+		<Image
+			src={heroAbout}
+			alt="Louise de dos dans une allée d'arbres"
+			class="h-[55svh] min-h-72 max-h-[42rem] w-full object-cover object-center"
+			widths={[640, 960, 1280, 1600]}
+			sizes="100vw"
+			loading="eager"
+			fetchpriority="high"
+		/>
+		<div
+			class="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-black/20"
+			aria-hidden="true"
+		>
+		</div>
+		<h1
+			class="absolute right-[7%] top-[52%] -translate-y-1/2 font-display text-4xl uppercase leading-none text-white drop-shadow-lg sm:text-6xl md:right-[9%] md:text-7xl lg:text-8xl"
+		>
+			Louise<br />Langenfeld
+		</h1>
+	</section>
+
+	<main>
+		<section class="relative isolate bg-base-200 px-4 py-10 text-white sm:px-8 md:px-12 md:py-12">
+			<Image
+				src={sapin}
+				alt=""
+				aria-hidden="true"
+				class="pointer-events-none absolute left-[max(1.5rem,calc((100vw-1280px)/2))] top-[-3rem] z-10 w-[clamp(10rem,23vw,20rem)] opacity-100"
+				loading="lazy"
+			/>
+			<div class="mx-auto grid w-[calc(100%-2.5rem)] max-w-[1280px] grid-cols-1 gap-5 sm:w-[calc(100%-4rem)] md:grid-cols-12">
+				<div class="grid gap-4 font-body text-base font-light leading-relaxed md:col-span-8 md:col-start-5">
+					<p>
+						Je suis étudiante en BUT MMI à Belfort et je développe
+						un univers graphique illustratif. J’aime créer des
+						visuels aux silhouettes nettes et aux palettes limitées.
+					</p>
+					<p>
+						Les projets collectifs me plaisent : échanger, confronter
+						les idées et construire une réponse visuelle ensemble
+						font partie de ma façon de travailler.
+					</p>
+					<p>
+						De l’identité d’Onyoz aux supports réalisés pour
+						l’association A3P90, j’aime faire évoluer une idée
+						jusqu’à un visuel concret.
+					</p>
+					<p>
+						J’aime aussi les activités manuelles, qui nourrissent
+						mon attention aux formes, aux matières et aux détails.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="relative isolate overflow-hidden bg-base-200 px-4 pb-8 pt-14 sm:px-8 md:px-12 md:pt-16 text-white">
+			<div class="mx-auto w-[calc(100%-2.5rem)] max-w-[1280px] sm:w-[calc(100%-4rem)]">
+				<h2 class="font-display text-xl font-bold uppercase sm:text-2xl">
+					Ma démarche ?
+				</h2>
+				<p class="mt-3 font-body text-base font-light">
+					Centrer mes idées sur des éléments simples :
+				</p>
+
+				<ul class="relative z-10 mt-8 grid max-w-xl gap-5 md:ml-[30%]">
+					<li class="grid grid-cols-[1fr_auto] items-center gap-8 font-body text-base font-light text-white">
+						<span>formes</span>
+						<Image src={formes} alt="" aria-hidden="true" class="h-12 w-auto" />
+					</li>
+					<li class="grid grid-cols-[1fr_auto] items-center gap-8 font-body text-base font-light text-white">
+						<span>aplats de couleurs</span>
+						<Image src={aplats} alt="" aria-hidden="true" class="h-12 w-auto" />
+					</li>
+					<li class="grid grid-cols-[1fr_auto] items-center gap-8 font-body text-base font-light text-white">
+						<span>jeux d’ombres</span>
+						<Image src={ombre} alt="" aria-hidden="true" class="h-12 w-auto" />
+					</li>
+				</ul>
+
+				<div class="relative mt-8 h-[clamp(13rem,30vw,27rem)]">
+				<Image
+					src={lac}
+					alt=""
+					aria-hidden="true"
+					class="absolute bottom-[20%] left-[12%] z-0 w-[68%] max-w-[58rem]"
+					loading="lazy"
+				/>
+				<Image
+					src={sapin}
+					alt=""
+					aria-hidden="true"
+					class="pointer-events-none absolute bottom-0 right-[2%] z-10 w-[clamp(10rem,23vw,20rem)]"
+					loading="lazy"
+				/>
+				</div>
+			</div>
+		</section>
+
+		<section class="bg-base-200 px-4 py-14 text-white sm:px-8 md:px-12 md:py-20">
+			<div class="mx-auto grid w-[calc(100%-2.5rem)] max-w-[1280px] gap-14 sm:w-[calc(100%-4rem)]">
+				<div>
+					<h2 class="font-display text-xl font-bold uppercase sm:text-2xl">
+						Outils | Le vectoriel, mon terrain de jeu.
+					</h2>
+					<p class="mt-3 max-w-3xl font-body text-base font-light leading-relaxed">
+						Le vectoriel me permet de travailler des formes nettes,
+						des compositions lisibles et des palettes maîtrisées.
+					</p>
+					<ul class="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12" aria-label="Outils vectoriels">
+						{
+							outilsVectoriel.map((outil) => (
+								<li>
+									<Image
+										src={resolveAsset(outil.logo)}
+										alt={outil.nom}
+										class="h-8 w-auto max-w-28 object-contain sm:h-10"
+										loading="lazy"
+									/>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+
+				<div class="border-t border-white/20 pt-10">
+					<h2 class="font-display text-xl font-bold uppercase sm:text-2xl">
+						Outils | L’IA, une aide à contrôler.
+					</h2>
+					<p class="mt-3 max-w-3xl font-body text-base font-light leading-relaxed">
+						J’utilise certains outils d’IA comme appui ponctuel à
+						la recherche, tout en gardant la direction créative et
+						les choix graphiques sous mon contrôle.
+					</p>
+					<ul class="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12" aria-label="Outils d'intelligence artificielle">
+						{
+							outilsIA.map((outil) => (
+								<li>
+									<Image
+										src={resolveAsset(outil.logo)}
+										alt={outil.nom}
+										class="h-8 w-auto max-w-28 object-contain sm:h-10"
+										loading="lazy"
+									/>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="bg-base-100 px-4 py-14 sm:px-8 md:px-12 md:py-20 text-base-300">
+			<div class="mx-auto w-[calc(100%-2.5rem)] max-w-[1280px] sm:w-[calc(100%-4rem)]">
+				<h2 class="mb-8 font-display text-xl font-bold uppercase sm:text-2xl">
+					Un parcours en développement
+				</h2>
+				<ol class="divide-y divide-black/30 border-y border-black/30">
+					{
+						parcours.map((etape) => (
+							<li class="grid gap-2 py-6 md:grid-cols-12 md:gap-5">
+								<span class="font-label text-sm font-medium md:col-span-4">
+									{etape.date}
+								</span>
+								<h3 class="font-display text-base font-bold uppercase md:col-span-4">
+									{etape.titre}
+								</h3>
+								<p class="font-body text-base font-light leading-relaxed md:col-span-4">
+									{etape.texte}
+								</p>
+							</li>
+						))
+					}
+				</ol>
+			</div>
+		</section>
+	</main>
+</Layout>

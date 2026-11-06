@@ -1,15 +1,42 @@
-<div class="card bg-base-100 w-96 shadow-sm">
-    <figure>
-        <img
-            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-            alt="Shoes"
+---
+import { Image } from "astro:assets";
+import { resolveAsset } from "../lib/assets";
+
+interface Props {
+    projet: {
+        id_projet: number;
+        titre: string;
+        annee: number;
+        description_courte: string;
+        image_couverture: string;
+        alt_image: string;
+    };
+}
+
+const { projet } = Astro.props;
+---
+
+<a
+    href={`/projet/${projet.id_projet}`}
+    class="card rounded-none border-2 border-black bg-base-300 text-white
+         transition-transform hover:-translate-y-1"
+>
+    <figure class="aspect-[4/3] overflow-hidden">
+        <Image
+            src={resolveAsset(projet.image_couverture)}
+            alt={projet.alt_image}
+            class="w-full h-full object-cover"
+            widths={[320, 480, 640]}
+            sizes="(min-width: 768px) 33vw, 100vw"
         />
     </figure>
-    <div class="card-body">
-        <h2 class="card-title">Card Title</h2>
-        <p>
-            A card component has a figure, a body part, and inside body there
-            are title and actions parts
-        </p>
+    <div class="card-body p-3 gap-1">
+        <div class="flex items-baseline justify-between">
+            <h3 class="card-title font-display uppercase text-action">
+                {projet.titre}
+            </h3>
+            <span class="font-label text-micro">{projet.annee}</span>
+        </div>
+        <p class="text-base leading-snug">{projet.description_courte}</p>
     </div>
-</div>
+</a>

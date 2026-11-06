@@ -1,0 +1,217 @@
+---
+import Header from "../components/Header.astro";
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import nuage from "../assets/item/Nuage_2.svg";
+---
+
+<Layout title="Contact - Louise Langenfeld">
+	<Header />
+	<main class="overflow-hidden bg-primary text-black">
+		<section
+			class="contact-hero relative mx-auto max-w-6xl px-4 sm:px-8 lg:px-12"
+			aria-labelledby="contact-title"
+		>
+			<h1
+				id="contact-title"
+				class="contact-title absolute left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center font-display text-4xl uppercase leading-tight sm:text-5xl md:text-6xl"
+			>
+				Une idée en tête ?
+			</h1>
+			<Image
+				src={nuage}
+				alt=""
+				aria-hidden="true"
+				class="contact-cloud pointer-events-none absolute bottom-0 left-0"
+				loading="eager"
+			/>
+		</section>
+
+		<section
+			class="contact-details mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 pb-16 sm:px-8 md:grid-cols-12 md:gap-5 md:pb-24 lg:px-12"
+			aria-label="Formulaire et coordonnées"
+		>
+			<form
+				id="contact-form"
+				class="flex flex-col gap-3 md:col-span-5"
+			>
+				<div class="flex flex-col">
+					<label for="contact-name" class="font-body font-light text-base">
+						Nom
+					</label>
+					<input
+						id="contact-name"
+						type="text"
+						name="nom"
+						autocomplete="name"
+						required
+						class="min-h-9 w-full rounded-none border-2 border-black bg-white px-2 py-1 font-body text-base text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+					/>
+				</div>
+
+				<div class="flex flex-col">
+					<label for="contact-email" class="font-body font-light text-base">
+						Email
+					</label>
+					<input
+						id="contact-email"
+						type="email"
+						name="email"
+						autocomplete="email"
+						required
+						class="min-h-9 w-full rounded-none border-2 border-black bg-white px-2 py-1 font-body text-base text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+					/>
+				</div>
+
+				<div class="flex flex-col">
+					<label for="contact-subject" class="font-body font-light text-base">
+						Sujet
+					</label>
+					<input
+						id="contact-subject"
+						type="text"
+						name="sujet"
+						required
+						class="min-h-9 w-full rounded-none border-2 border-black bg-white px-2 py-1 font-body text-base text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+					/>
+				</div>
+
+				<div class="flex flex-col">
+					<label for="contact-message" class="font-body font-light text-base">
+						Message
+					</label>
+					<textarea
+						id="contact-message"
+						name="message"
+						rows="5"
+						required
+						class="w-full resize-y rounded-none border-2 border-black bg-white px-2 py-1 font-body text-base text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+					></textarea>
+				</div>
+
+				<button
+					type="submit"
+					class="mt-2 min-h-10 w-fit border-2 border-black bg-white px-8 font-display text-base font-bold uppercase transition-colors hover:bg-base-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+				>
+					Envoyer
+				</button>
+				<p
+					id="form-message"
+					class="min-h-5 font-body text-sm"
+					aria-live="polite"
+				>
+				</p>
+			</form>
+
+			<aside
+				class="space-y-8 font-body text-base font-light leading-snug md:col-span-5 md:col-start-7"
+			>
+				<section aria-labelledby="contact-email-title">
+					<h2
+						id="contact-email-title"
+						class="font-display font-bold uppercase"
+					>
+						Le chemin le plus simple
+					</h2>
+					<a
+						href="mailto:louiselangenfeld300@gmail.com"
+						class="break-all underline decoration-transparent underline-offset-2 hover:decoration-current"
+					>
+						louiselangenfeld300@gmail.com
+					</a>
+					<p class="mt-6">
+						Belfort, France<br />
+						Lundi - Samedi de 9h - 19h30
+					</p>
+				</section>
+
+				<section aria-labelledby="contact-social-title">
+					<h2
+						id="contact-social-title"
+						class="font-display font-bold uppercase"
+					>
+						Pour suivre mon travail
+					</h2>
+					<ul>
+						<li>
+							Instagram -
+							<a
+								href="https://www.instagram.com/louise_langenfeld/"
+								target="_blank"
+								rel="noreferrer"
+								class="underline decoration-transparent underline-offset-2 hover:decoration-current"
+							>
+								@louise_langenfeld
+							</a>
+						</li>
+						<li>
+							LinkedIn -
+							<a
+								href="https://www.linkedin.com/in/louise-langenfeld-a92807385"
+								target="_blank"
+								rel="noreferrer"
+								class="underline decoration-transparent underline-offset-2 hover:decoration-current"
+							>
+								Louise Langenfeld
+							</a>
+						</li>
+					</ul>
+				</section>
+			</aside>
+		</section>
+	</main>
+</Layout>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>("#contact-form");
+	const status = document.querySelector<HTMLParagraphElement>("#form-message");
+
+	form?.addEventListener("submit", (event) => {
+		event.preventDefault();
+
+		if (!form.reportValidity()) return;
+
+		const formData = new FormData(form);
+		const name = String(formData.get("nom") ?? "");
+		const email = String(formData.get("email") ?? "");
+		const subject = String(formData.get("sujet") ?? "");
+		const message = String(formData.get("message") ?? "");
+		const body = `${message}\n\n${name}\n${email}`;
+		const mailto = `mailto:louiselangenfeld300@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+		if (status) {
+			status.textContent =
+				"Votre application e-mail va s’ouvrir pour envoyer le message.";
+		}
+		window.location.href = mailto;
+	});
+</script>
+
+<style>
+	.contact-hero {
+		height: 20rem;
+	}
+
+	.contact-title {
+		top: 42%;
+	}
+
+	.contact-cloud {
+		width: min(22rem, 48vw);
+		height: auto;
+	}
+
+	.contact-details {
+		padding-top: 2rem;
+	}
+
+	@media (min-width: 48rem) {
+		.contact-hero {
+			height: 22rem;
+		}
+
+		.contact-details {
+			padding-top: 1rem;
+		}
+	}
+</style>

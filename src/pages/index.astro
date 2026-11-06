@@ -1,17 +1,208 @@
 ---
-import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
+import Card_projet from "../components/Card_projet.astro";
+import Footer from "../components/Footer.astro";
+import HeroLottie from "../components/HeroLottie.astro";
+import ToolsCarousel from "../components/ToolsCarousel.astro";
+import { Image } from "astro:assets";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { getProjets, getOutilsCreatifs } from "../lib/db";
+
+import iles from "../assets/iles.svg";
+import feuOff from "../assets/feu_off.svg";
+import feuOn from "../assets/feu_on.svg";
+import tenteOff from "../assets/tente_off.svg";
+import tenteOn from "../assets/tente_on.svg";
+import nuage2 from "../assets/item/Nuage_2.svg";
+import nuage3 from "../assets/item/Nuage_3.svg";
+
+const projets = getProjets(3);
+const outils = getOutilsCreatifs();
 ---
 
-<Layout>
-	<main>
-		
+<Layout title="Portfolio · Recherche de stage">
+	<HeroLottie />
+	<main
+		id="main-content"
+		class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8"
+	>
+		<header class="pt-4 md:pt-6">
+			<p
+				class="font-display text-xl font-bold uppercase tracking-wide"
+			>
+				Louise Langenfeld · Étudiante BUT MMI
+			</p>
+		</header>
+
+			<section
+			id="introduction"
+			class="mt-12 scroll-mt-8 md:mt-16"
+			aria-label="Recherche de stage"
+		>
+			<p class="max-w-4xl font-body font-light text-base leading-snug">
+				Du 29 mars au 4 juin · Belfort en priorité, également
+				Montbéliard ou Agen. Je souhaite rejoindre une équipe
+				communication pour contribuer à ses projets graphiques et
+				apprendre dans un cadre collectif.
+			</p>
+		</section>
+
+		<section class="mt-12 md:mt-16" aria-label="Mon univers graphique">
+			<div class="relative mx-auto w-full max-w-5xl">
+				<Image
+					src={iles}
+					alt="Illustration d'îles flottantes avec sapins et lac"
+					class="w-full"
+					loading="lazy"
+				/>
+				<a
+					href="/all_project"
+					aria-label="Découvrir tous les projets"
+					class="group absolute left-[24%] top-[37%] w-[11%] transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
+				>
+					<Image
+						src={feuOff}
+						alt=""
+						aria-hidden="true"
+						class="block h-auto w-full transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0"
+					/>
+					<Image
+						src={feuOn}
+						alt=""
+						aria-hidden="true"
+						class="absolute inset-0 h-auto w-full opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+					/>
+				</a>
+				<a
+					href="/about"
+					aria-label="En savoir plus sur mon parcours"
+					class="group absolute left-[71%] top-[39%] w-[14%] transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
+				>
+					<Image
+						src={tenteOff}
+						alt=""
+						aria-hidden="true"
+						class="block h-auto w-full transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0"
+					/>
+					<Image
+						src={tenteOn}
+						alt=""
+						aria-hidden="true"
+						class="absolute inset-0 h-auto w-full opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+					/>
+				</a>
+			</div>
+			<p
+				class="mt-10 max-w-4xl font-body font-light text-base leading-snug md:mt-14"
+			>
+				Des formes simples, un univers graphique affirmé. Je suis Louise
+				Langenfeld, étudiante en BUT MMI. J’aime créer des visuels aux
+				silhouettes nettes et aux palettes limitées, avec une
+				sensibilité illustrative que je souhaite développer en graphisme
+				print et en identité de marque.
+			</p>
+		</section>
+
+		<section
+			class="mt-10 grid items-center gap-6 sm:grid-cols-2 md:mt-14"
+			aria-label="Originaire de Belfort"
+		>
+			<p class="font-body font-light text-base">
+				Française · Belfortaine
+			</p>
+			<Image
+				src={nuage2}
+				alt=""
+				aria-hidden="true"
+				class="w-full max-w-sm justify-self-end"
+				loading="lazy"
+			/>
+		</section>
+
+		<ToolsCarousel outils={outils} />
+
+		<section class="mt-12 max-w-4xl md:mt-16">
+			<h2 class="font-display text-2xl font-bold uppercase">
+				De l’échange au dessin
+			</h2>
+			<p class="mt-3 font-body font-light text-base leading-snug">
+				Je commence par poser des questions pour comprendre la demande
+				et les contraintes. Je cherche ensuite mes idées à la main,
+				avant de développer une piste et de l’ajuster au fil des
+				échanges.
+			</p>
+		</section>
+
+		<section id="projets" class="mt-14 scroll-mt-8 md:mt-20">
+			<div class="mb-5 flex items-end justify-between gap-4 md:mb-8">
+				<h2 class="font-display text-2xl font-bold uppercase">
+					Mes derniers projets
+				</h2>
+				<a
+					href="/all_project"
+					class="whitespace-nowrap font-label text-micro uppercase link link-hover md:text-base"
+				>
+					Tous les projets →
+				</a>
+			</div>
+
+			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				{projets.map((projet) => <Card_projet projet={projet} />)}
+			</div>
+		</section>
+
+		<section
+			id="contact"
+			class="mt-14 grid gap-8 md:mt-20 md:grid-cols-[1fr_auto] md:items-center"
+		>
+			<div class="max-w-4xl space-y-3">
+				<h2 class="font-display text-2xl font-bold uppercase">
+					Et si je rejoignais votre équipe ?
+				</h2>
+				<p class="font-body font-light text-base leading-snug">
+					Je recherche un stage pour progresser en graphisme au sein
+					d’une équipe communication, avec un intérêt particulier pour
+					le print, l’illustration et l’identité visuelle.
+				</p>
+				<p class="font-body font-light text-base leading-snug">
+					Également à la recherche d’une alternance à Belfort dès
+					septembre 2027, pour ma troisième année de BUT MMI, à raison
+					de deux jours par semaine : le jeudi et le vendredi.
+				</p>
+			</div>
+			<Image
+				src={nuage3}
+				alt=""
+				aria-hidden="true"
+				class="w-48 max-w-full justify-self-center md:w-80 md:justify-self-end"
+				loading="lazy"
+			/>
+		</section>
+
+		<section
+			id="about"
+			class="mt-12 grid gap-4 md:mt-16 md:grid-cols-2 md:items-start md:gap-8"
+		>
+			<h2 class="font-display text-2xl font-bold uppercase">
+				De l’idée à la mise en place
+			</h2>
+			<div
+				class="space-y-3 font-body font-light text-base leading-snug md:text-right"
+			>
+				<p>
+					D’abord comprendre, puis dessiner. Je commence par échanger
+					pour cerner la demande, les idées et les contraintes. Mes
+					premières recherches prennent forme à la main, avant de
+					développer une proposition et de l’ajuster avec les
+					personnes qui portent le projet.
+				</p>
+				<a
+					href="/about"
+					class="inline-block font-label text-micro uppercase link link-hover"
+				>
+					→ Découvrez ma façon de travailler
+				</a>
+			</div>
+		</section>
 	</main>
 </Layout>
-
-<script>
-	import "@lottiefiles/dotlottie-wc";
-</script>

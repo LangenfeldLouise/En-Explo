@@ -4,54 +4,42 @@
 @plugin "daisyui/theme" {
     name: "mytheme";
     default: true;
-    /* set as default */
     prefersdark: false;
-    /* set as default dark mode (prefers-color-scheme:dark) */
     color-scheme: light;
-    /* color of browser-provided UI */
 
     --color-base-100: oklch(84.5% 0.143 164.978);
     --color-base-200: oklch(59.6% 0.145 163.225);
     --color-base-300: oklch(43.2% 0.095 166.913);
     --color-primary: oklch(90.1% 0.058 230.902);
-    /* base sizes */
+
     --size-selector: 0.25rem;
     --size-field: 0.25rem;
-
-    /* border size */
     --border: 1px;
-
-    /* effects */
     --depth: 1;
     --noise: 0;
-    
+}
+
+@theme {
+    --color-base-100: oklch(84.5% 0.143 164.978);
+    --color-base-200: oklch(59.6% 0.145 163.225);
+    --color-base-300: oklch(43.2% 0.095 166.913);
+    --color-primary: oklch(90.1% 0.058 230.902);
     
     --font-display: "Arsenal SC", serif;
     --font-body: "Roboto", sans-serif;
     --font-label: "Inter", sans-serif;
 
+    /* Tailles fluides : mobile → desktop */
     --text-micro: 0.75rem;
-    /* 12px */
-    --text-caption: 1.25rem;
-    /* 20px */
-    --text-action: 1.5rem;
-    /* 24px */
-    --text-filter: 1.75rem;
-    /* 28px */
-    --text-body: 2rem;
-    /* 32px */
-    --text-section: 2.25rem;
-    /* 36px */
-    --text-step: 3rem;
-    /* 48px */
-    --text-brand: 4rem;
-    /* 64px */
-    --text-page: 6.875rem;
-    /* 110px */
+    --text-action: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
+    --text-filter: clamp(1.125rem, 1rem + 0.7vw, 1.75rem);
+    --text-body: clamp(1rem, 0.9rem + 0.8vw, 2rem);
+    --text-section: clamp(1.25rem, 1rem + 1.2vw, 2.25rem);
+    --text-step: clamp(1.75rem, 1.2rem + 2.5vw, 3rem);
+    --text-brand: clamp(2.25rem, 1.5rem + 3.5vw, 4rem);
+    --text-page: clamp(3rem, 1.5rem + 7vw, 6.875rem);
     --text-page--line-height: 1.05;
-    --text-hero: 8rem;
-    /* 128px */
+    --text-hero: clamp(3.5rem, 1.5rem + 9vw, 8rem);
 
     --radius-filter: 0.9375rem;
-    /* 15px */
 }

@@ -1,0 +1,95 @@
+---
+import { Image } from "astro:assets";
+import { resolveAsset } from "../lib/assets";
+import type { Outil } from "../lib/db";
+
+interface Props {
+	outils: Outil[];
+}
+
+const { outils } = Astro.props;
+---
+
+<section class="mt-10 md:mt-14" aria-label="Outils utilisés">
+	<div class="tools-carousel carousel carousel-horizontal">
+		<div class="tools-track" aria-live="off">
+			<ul class="tools-group carousel-start">
+				{
+					outils.map((outil) => (
+						<li class="tool-item carousel-item">
+							<Image
+								src={resolveAsset(outil.logo)}
+								alt={outil.nom}
+								class="h-10 w-auto max-w-32 object-contain sm:h-12 md:h-14"
+								loading="lazy"
+							/>
+						</li>
+					))
+				}
+			</ul>
+			<ul class="tools-group carousel-start" aria-hidden="true">
+				{
+					outils.map((outil) => (
+						<li class="tool-item carousel-item">
+							<Image
+								src={resolveAsset(outil.logo)}
+								alt=""
+								class="h-10 w-auto max-w-32 object-contain sm:h-12 md:h-14"
+								loading="lazy"
+							/>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.tools-carousel {
+		width: 100%;
+		overflow: hidden;
+	}
+
+	.tools-track {
+		display: flex;
+		width: max-content;
+		animation: tools-marquee 30s linear infinite;
+	}
+
+	.tools-group {
+		display: flex;
+		flex: none;
+		align-items: center;
+		gap: clamp(2rem, 5vw, 4rem);
+		padding: 0 clamp(1rem, 2.5vw, 2rem);
+	}
+
+	.tool-item {
+		display: flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.tools-carousel:hover .tools-track,
+	.tools-carousel:focus-within .tools-track {
+		animation-play-state: paused;
+	}
+
+	@keyframes tools-marquee {
+		to {
+			transform: translateX(-50%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.tools-track {
+			animation: none;
+		}
+
+		.tools-group[aria-hidden="true"] {
+			display: none;
+		}
+	}
+</style>
