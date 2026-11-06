@@ -12,9 +12,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.3.3",
+    "@lottiefiles/dotlottie-react": "^0.21.1",
+    "@lottiefiles/dotlottie-wc": "^0.11.1",
+    "@tailwindcss/vite": "^4.3.4",
     "astro": "^7.3.8",
-    "tailwindcss": "^4.3.3"
+    "lottie-react": "^3.1.2",
+    "tailwindcss": "^4.3.4"
   },
   "devDependencies": {
     "daisyui": "^5.7.50"
