@@ -1,0 +1,131 @@
+---
+import { Image } from "astro:assets";
+import Header from "../../components/Header.astro";
+import Layout from "../../layouts/Layout.astro";
+import {
+    getActionsProjet,
+    getOutilsProjet,
+    getProjets,
+    type Projet,
+} from "../../lib/db";
+import { resolveAsset } from "../../lib/assets";
+
+interface Props {
+    projet: Projet;
+}
+
+export function getStaticPaths() {
+    return getProjets().map((projet) => ({
+        params: { id: String(projet.id_projet) },
+        props: { projet },
+    }));
+}
+
+const { projet } = Astro.props;
+const actions = getActionsProjet(projet.id_projet);
+const outils = getOutilsProjet(projet.id_projet);
+---
+
+<Layout
+    title={`${projet.titre} – Louise Langenfeld`}
+    description={projet.description_courte}
+>
+    <Header />
+    <main class="mx-auto w-full max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
+        <article>
+            <a
+                href="/all_project"
+                class="mt-8 inline-flex items-center gap-2 font-display text-sm font-bold uppercase [font-variant-caps:small-caps] link link-hover"
+            >
+                <span aria-hidden="true">←</span>
+                Tous les projets
+            </a>
+
+            <header class="mt-10 flex items-start justify-between gap-6 sm:mt-12">
+                <div>
+                    <h1 class="font-display text-5xl font-normal uppercase leading-tight sm:text-6xl md:text-7xl">
+                        {projet.titre}
+                    </h1>
+                    <p class="mt-2 max-w-xl text-lg leading-snug sm:text-xl">
+                        {projet.contexte}
+                    </p>
+                </div>
+                <p class="shrink-0 pt-2 font-display text-xl font-bold sm:text-2xl">
+                    {projet.annee}
+                </p>
+            </header>
+
+            <figure class="mx-auto mt-8 max-w-[66.5rem] border-2 border-black sm:mt-10">
+                <Image
+                    src={resolveAsset(projet.image_couverture)}
+                    alt={projet.alt_image || projet.titre}
+                    class="aspect-[1065/534] w-full object-cover"
+                    widths={[640, 960, 1280]}
+                    sizes="(min-width: 1152px) 1065px, calc(100vw - 2rem)"
+                />
+            </figure>
+
+            <div class="mt-10 grid gap-8 md:grid-cols-2 md:gap-x-5 md:gap-y-0">
+                <section>
+                    <h2 class="font-display text-xl font-bold uppercase [font-variant-caps:small-caps] sm:text-2xl">
+                        La demande
+                    </h2>
+                    <p class="whitespace-pre-line text-base leading-relaxed sm:text-lg">
+                        {projet.demande}
+                    </p>
+                </section>
+                <section>
+                    <h2 class="font-display text-xl font-bold uppercase [font-variant-caps:small-caps] sm:text-2xl">
+                        La réponse
+                    </h2>
+                    <p class="whitespace-pre-line text-base leading-relaxed sm:text-lg">
+                        {projet.reponse}
+                    </p>
+                </section>
+            </div>
+
+            {actions.length > 0 && (
+                <section class="mt-12 sm:mt-16">
+                    <h2 class="font-display text-xl font-bold uppercase [font-variant-caps:small-caps] sm:text-2xl">
+                        Mes actions
+                    </h2>
+                    <ol class="mt-8 grid gap-x-5 gap-y-12 md:grid-cols-2">
+                        {actions.map((action) => (
+                            <li>
+                                <div class="flex items-center gap-5 border-3 border-black bg-white px-4 py-4 sm:gap-6 sm:px-6">
+                                    <span class="font-display text-4xl font-bold text-base-300 sm:text-5xl">
+                                        {String(action.numero).padStart(2, "0")}
+                                    </span>
+                                    <h3 class="font-display text-2xl font-normal [font-variant-caps:small-caps] sm:text-3xl">
+                                        {action.titre}
+                                    </h3>
+                                </div>
+                                <p class="mt-6 whitespace-pre-line text-base leading-relaxed sm:text-lg">
+                                    {action.texte}
+                                </p>
+                            </li>
+                        ))}
+                    </ol>
+                </section>
+            )}
+
+            {outils.length > 0 && (
+                <ul
+                    class="mt-12 flex flex-wrap items-center justify-center gap-8 sm:mt-16 sm:gap-10"
+                    aria-label="Outils utilisés"
+                >
+                    {outils.map((outil) => (
+                        <li>
+                            <Image
+                                src={resolveAsset(outil.logo)}
+                                alt={outil.nom}
+                                class="h-12 w-auto object-contain sm:h-16"
+                                widths={[96, 128]}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </article>
+    </main>
+</Layout>

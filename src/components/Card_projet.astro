@@ -1,41 +1,44 @@
 ---
 import { Image } from "astro:assets";
 import { resolveAsset } from "../lib/assets";
+import type { Projet } from "../lib/db";
 
 interface Props {
-    projet: {
-        id_projet: number;
-        titre: string;
-        annee: number;
-        description_courte: string;
-        image_couverture: string;
-        alt_image: string;
-    };
+    projet: Projet;
 }
 
 const { projet } = Astro.props;
+const famille =
+    projet.id_categorie === 2
+        ? "site-web"
+        : projet.id_categorie === 3
+          ? "affiche"
+          : "autre";
 ---
 
 <a
     href={`/projet/${projet.id_projet}`}
-    class="card rounded-none border-2 border-black bg-base-300 text-white
+    data-groupe={String(projet.en_groupe === 1)}
+    data-famille={famille}
+    class="card card-projet h-full rounded-none border-2 border-black bg-base-300 text-white
          transition-transform hover:-translate-y-1"
 >
-    <figure class="aspect-[4/3] overflow-hidden">
+    <figure class="aspect-[3/2] overflow-hidden">
         <Image
             src={resolveAsset(projet.image_couverture)}
-            alt={projet.alt_image}
-            class="w-full h-full object-cover"
+            alt={projet.alt_image || projet.titre}
+            class="h-full w-full object-cover"
             widths={[320, 480, 640]}
-            sizes="(min-width: 768px) 33vw, 100vw"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            loading="lazy"
         />
     </figure>
-    <div class="card-body p-3 gap-1">
-        <div class="flex items-baseline justify-between">
-            <h3 class="card-title font-display uppercase text-action">
+    <div class="card-body flex-1 gap-1 p-3">
+        <div class="flex items-baseline justify-between gap-4">
+            <h3 class="card-title min-w-0 font-display uppercase text-action">
                 {projet.titre}
             </h3>
-            <span class="font-label text-micro">{projet.annee}</span>
+            <span class="shrink-0 font-label text-micro">{projet.annee}</span>
         </div>
         <p class="text-base leading-snug">{projet.description_courte}</p>
     </div>

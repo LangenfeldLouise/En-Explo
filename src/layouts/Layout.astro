@@ -2,9 +2,13 @@
 import "../styles/global.css";
 interface Props {
 	title?: string;
+	description?: string;
 }
 
-const { title = "Mon portfolio" } = Astro.props;
+const {
+	title = "Mon portfolio",
+	description = "Portfolio de Louise Langenfeld, étudiante en BUT MMI.",
+} = Astro.props;
 
 import Footer from "../components/Footer.astro";
 ---
@@ -20,6 +24,7 @@ import Footer from "../components/Footer.astro";
 			href="https://fonts.googleapis.com/css2?family=Arsenal+SC:wght@400;700&family=Inter:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap"
 			rel="stylesheet"
 		/>
+		<meta name="description" content={description} />
 		<title>{title}</title>
 	</head>
 	<body class="bg-primary font-body text-black min-h-screen overflow-x-hidden">

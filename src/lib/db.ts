@@ -28,6 +28,12 @@ export type Outil = {
     type: string;
 };
 
+export type ActionProjet = {
+    numero: number;
+    titre: string;
+    texte: string;
+};
+
 export function getProjets(limit?: number): Projet[] {
     const sql = `SELECT * FROM PROJET ORDER BY annee DESC, id_projet DESC ${limit ? 'LIMIT ?' : ''}`;
     const stmt = db.prepare(sql);
@@ -48,4 +54,22 @@ export function getOutilsByType(type: string): Outil[] {
     return db
         .prepare('SELECT * FROM OUTIL WHERE type = ? ORDER BY id_outil')
         .all(type) as Outil[];
+}
+
+export function getActionsProjet(id: number): ActionProjet[] {
+    return db
+        .prepare('SELECT numero, titre, texte FROM ACTION WHERE id_projet = ? ORDER BY numero')
+        .all(id) as ActionProjet[];
+}
+
+export function getOutilsProjet(id: number): Outil[] {
+    return db
+        .prepare(`
+            SELECT o.id_outil, o.nom, o.logo, o.type
+            FROM UTILISER u
+            JOIN OUTIL o ON o.id_outil = u.id_outil
+            WHERE u.id_projet = ?
+            ORDER BY o.id_outil
+        `)
+        .all(id) as Outil[];
 }

@@ -1,8 +1,133 @@
 ---
+import { Image } from "astro:assets";
+import Card_projet from "../components/Card_projet.astro";
 import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
+import { getProjets } from "../lib/db";
+
+import nuage from "../assets/item/Nuage_1.svg";
+
+const projets = getProjets();
+const choixFiltre = [
+    { valeur: "tous", libelle: "Tous" },
+    { valeur: "site-web", libelle: "Site web" },
+    { valeur: "affiche", libelle: "Affiches" },
+    { valeur: "autre", libelle: "Autres" },
+];
+
+const boutonFiltre =
+    "btn btn-sm h-auto min-h-0 rounded-xl border-2 border-black bg-white px-3 py-1 font-display text-sm font-normal text-base-content [font-variant-caps:small-caps] aria-pressed:bg-base-300 aria-pressed:text-white";
 ---
 
-<Layout>
+<Layout
+    title="Mes travaux – Louise Langenfeld"
+    description="Découvrez les projets de graphisme, d'illustration et de développement web de Louise Langenfeld."
+>
     <Header />
+    <main class="projets mx-auto w-full max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
+        <h1 class="mt-14 text-center font-display text-5xl font-normal [font-variant-caps:small-caps] sm:mt-16 sm:text-6xl md:text-7xl">
+            Mes travaux
+        </h1>
+        <Image
+            src={nuage}
+            alt=""
+            aria-hidden="true"
+            class="mx-auto mt-8 w-full max-w-2xl"
+        />
+
+        <div class="mt-12 flex flex-wrap items-start gap-2 sm:mt-16">
+            <button type="button" class={boutonFiltre} data-groupe="false" aria-pressed="false">
+                Seule
+            </button>
+            <button type="button" class={boutonFiltre} data-groupe="true" aria-pressed="false">
+                En groupe
+            </button>
+
+            <details class="dropdown">
+                <summary class={`${boutonFiltre} list-none cursor-pointer`}>
+                    Filtre <span aria-hidden="true">⌄</span>
+                </summary>
+                <ul
+                    class="dropdown-content menu z-10 mt-1 w-40 rounded-none border-2 border-black bg-white p-2 text-base-content"
+                >
+                    {choixFiltre.map((choix) => (
+                        <li>
+                            <button
+                                type="button"
+                                data-famille={choix.valeur}
+                                aria-pressed={choix.valeur === "tous"}
+                            >
+                                {choix.libelle}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </details>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {projets.map((projet) => <Card_projet projet={projet} />)}
+        </div>
+        <p class="aucun-projet mt-10 hidden text-center" role="status">
+            Aucun projet ne correspond à ce filtre.
+        </p>
+    </main>
 </Layout>
+
+<script>
+    document.querySelectorAll<HTMLElement>(".projets").forEach((conteneur) => {
+        const cartes = conteneur.querySelectorAll<HTMLElement>(".card-projet");
+        const boutonsGroupe =
+            conteneur.querySelectorAll<HTMLButtonElement>("button[data-groupe]");
+        const boutonsFamille =
+            conteneur.querySelectorAll<HTMLButtonElement>("button[data-famille]");
+        const message = conteneur.querySelector<HTMLElement>(".aucun-projet");
+
+        let groupe: string | null = null;
+        let famille = "tous";
+
+        const appliquer = () => {
+            let visibles = 0;
+            cartes.forEach((carte) => {
+                const correspondGroupe =
+                    groupe === null || carte.dataset.groupe === groupe;
+                const correspondFamille =
+                    famille === "tous" || carte.dataset.famille === famille;
+                const afficher = correspondGroupe && correspondFamille;
+                carte.classList.toggle("hidden", !afficher);
+                if (afficher) visibles++;
+            });
+            message?.classList.toggle("hidden", visibles > 0);
+        };
+
+        boutonsGroupe.forEach((bouton) => {
+            bouton.addEventListener("click", () => {
+                groupe =
+                    groupe === bouton.dataset.groupe
+                        ? null
+                        : (bouton.dataset.groupe ?? null);
+                boutonsGroupe.forEach((option) => {
+                    option.setAttribute(
+                        "aria-pressed",
+                        String(option.dataset.groupe === groupe),
+                    );
+                });
+                appliquer();
+            });
+        });
+
+        boutonsFamille.forEach((bouton) => {
+            bouton.addEventListener("click", () => {
+                famille = bouton.dataset.famille ?? "tous";
+                boutonsFamille.forEach((option) => {
+                    option.setAttribute(
+                        "aria-pressed",
+                        String(option.dataset.famille === famille),
+                    );
+                });
+                bouton.closest("details")?.removeAttribute("open");
+                appliquer();
+            });
+        });
+    });
+</script>
