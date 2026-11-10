@@ -1,0 +1,196 @@
+<section class="hero" aria-labelledby="hero-title">
+	<p class="hero__label hero__label--top font-display text-xl font-bold uppercase tracking-wide">
+		Louise Langenfeld - étudiante BUT MMI
+	</p>
+
+	<div class="hero__circle">
+		<h1 id="hero-title" class="hero__title">
+			<span>Louise</span>
+			<span>Langenfeld</span>
+		</h1>
+	</div>
+
+	<p class="hero__label hero__label--bottom font-display text-xl font-bold uppercase tracking-wide">
+		À la recherche d'un stage graphisme, ouverte à une alternance
+	</p>
+
+	<a class="hero__scroll" href="#main-content" aria-label="Défiler vers le contenu">
+		<span>Scroll down</span>
+		<svg
+			aria-hidden="true"
+			viewBox="0 0 24 24"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path d="M12 4v15m0 0-6-6m6 6 6-6" />
+		</svg>
+	</a>
+</section>
+
+<style>
+	.hero {
+		position: relative;
+		display: grid;
+		min-height: 100vh;
+		min-height: 100svh;
+		place-items: center;
+		overflow: hidden;
+		padding: 2rem 1rem 5rem;
+	}
+
+	.hero__circle {
+		display: grid;
+		width: clamp(17rem, 52vw, 40rem);
+		aspect-ratio: 1;
+		place-items: center;
+		border: 3px solid #111;
+		border-radius: 50%;
+		background: #fff;
+		animation: circle-entrance 2.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+	}
+
+	.hero__label {
+		position: absolute;
+		z-index: 1;
+		margin: 0;
+		font-size: 1.25rem;
+		line-height: 1.2;
+	}
+
+	.hero__label--top {
+		top: 1rem;
+		left: 1.5rem;
+	}
+
+	.hero__label--bottom {
+		right: 1.5rem;
+		bottom: 6rem;
+		max-width: min(34rem, 75vw);
+		text-align: right;
+	}
+
+	.hero__title {
+		display: grid;
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 5.5vw, 5rem);
+		font-weight: 400;
+		letter-spacing: 0.01em;
+		line-height: 0.98;
+		text-transform: uppercase;
+		clip-path: inset(0 100% 0 0);
+		animation: title-reveal 0.75s ease-out 2.1s forwards;
+	}
+
+	.hero__scroll {
+		position: absolute;
+		bottom: 1.5rem;
+		left: 50%;
+		display: grid;
+		justify-items: center;
+		gap: 0.25rem;
+		color: inherit;
+		font-family: var(--font-label);
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		text-transform: uppercase;
+		transform: translateX(-50%);
+		animation: scroll-bounce 1.5s ease-in-out infinite;
+	}
+
+	@media (min-width: 40.01rem) {
+		.hero__scroll {
+			bottom: calc(1.5rem + 10px);
+		}
+	}
+
+	.hero__scroll svg {
+		width: 1.5rem;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.75;
+	}
+
+	.hero__scroll:focus-visible {
+		border-radius: 0.25rem;
+		outline: 2px solid currentColor;
+		outline-offset: 0.35rem;
+	}
+
+	@keyframes circle-entrance {
+		0% {
+			opacity: 0;
+			transform: scale(0.5);
+		}
+
+		38% {
+			opacity: 1;
+			transform: scale(0.5);
+		}
+
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	@keyframes title-reveal {
+		to {
+			clip-path: inset(0);
+		}
+	}
+
+	@keyframes scroll-bounce {
+		0%,
+		100% {
+			transform: translate(-50%, 0);
+		}
+
+		50% {
+			transform: translate(-50%, -0.5rem);
+		}
+	}
+
+	@media (max-width: 40rem) {
+		.hero__label {
+			font-size: clamp(0.875rem, 4vw, 1.25rem);
+		}
+
+		.hero__label--top {
+			left: 1rem;
+		}
+
+		.hero__label--bottom {
+			right: 1rem;
+			max-width: 80vw;
+		}
+
+		.hero__circle {
+			width: min(76vw, 30rem);
+		}
+
+		.hero__title {
+			font-size: clamp(2rem, 8vw, 3.25rem);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero__circle {
+			animation: none;
+			opacity: 1;
+			transform: none;
+		}
+
+		.hero__title {
+			animation: none;
+			clip-path: none;
+		}
+
+		.hero__scroll {
+			animation: none;
+		}
+	}
+</style>

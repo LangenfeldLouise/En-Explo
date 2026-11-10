@@ -1,8 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card_projet from "../components/Card_projet.astro";
-import Footer from "../components/Footer.astro";
-import HeroLottie from "../components/HeroLottie.astro";
+import Hero from "../components/Hero.astro";
 import ToolsCarousel from "../components/ToolsCarousel.astro";
 import { Image } from "astro:assets";
 
@@ -21,7 +20,7 @@ const outils = getOutilsCreatifs();
 ---
 
 <Layout title="Portfolio · Recherche de stage">
-	<HeroLottie />
+	<Hero />
 	<main
 		id="main-content"
 		class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8"
