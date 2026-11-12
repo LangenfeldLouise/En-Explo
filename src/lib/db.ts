@@ -1,8 +1,9 @@
-import Database from 'better-sqlite3';
-import { resolve } from 'node:path';
+// @ts-expect-error bun:sqlite est fourni par le runtime Bun
+import { Database } from "bun:sqlite";
+import { resolve } from "node:path";
 
 const db = new Database(
-    resolve(process.cwd(), 'data', 'portfolio.db'),
+    resolve(process.cwd(), "data", "portfolio.db"),
     { readonly: true }
 );
 export default db;
@@ -41,7 +42,7 @@ export function getProjets(limit?: number): Projet[] {
 }
 
 export function getProjet(id: number): Projet | undefined {
-    return db.prepare('SELECT * FROM PROJET WHERE id_projet = ?').get(id) as Projet | undefined;
+    return (db.prepare('SELECT * FROM PROJET WHERE id_projet = ?').get(id) as Projet | null) ?? undefined;
 }
 
 export function getOutilsCreatifs(): Outil[] {
