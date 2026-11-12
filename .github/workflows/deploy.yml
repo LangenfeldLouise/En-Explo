@@ -1,0 +1,29 @@
+name: Deploy Portfolio
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy on Ubuntu server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+            export PATH="$HOME/.bun/bin:$PATH"
+
+            cd /var/www/portfolio2026
+
+            git pull origin main
+            bun install --frozen-lockfile
+            bun run --bun build
+
+            curl --fail --retry 5 --retry-delay 2 https://portfolio2026.louiselangenfeld.fr/
