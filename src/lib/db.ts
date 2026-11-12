@@ -1,12 +1,16 @@
-// @ts-expect-error bun:sqlite est fourni par le runtime Bun
-import { Database } from "bun:sqlite";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const db = new Database(
-    resolve(process.cwd(), "data", "portfolio.db"),
-    { readonly: true }
-);
-export default db;
+interface DatabaseData {
+    projets: Projet[];
+    outils: Outil[];
+    actions: (ActionProjet & { id_projet: number })[];
+    outilsProjets: (Outil & { id_projet: number })[];
+}
+
+const data = JSON.parse(
+    readFileSync(resolve(process.cwd(), ".astro", "site-data.json"), "utf8"),
+) as DatabaseData;
 
 export type Projet = {
     id_projet: number;
@@ -36,41 +40,31 @@ export type ActionProjet = {
 };
 
 export function getProjets(limit?: number): Projet[] {
-    const sql = `SELECT * FROM PROJET ORDER BY annee DESC, id_projet DESC ${limit ? 'LIMIT ?' : ''}`;
-    const stmt = db.prepare(sql);
-    return (limit ? stmt.all(limit) : stmt.all()) as Projet[];
+    return limit && limit > 0 ? data.projets.slice(0, limit) : data.projets;
 }
 
 export function getProjet(id: number): Projet | undefined {
-    return (db.prepare('SELECT * FROM PROJET WHERE id_projet = ?').get(id) as Projet | null) ?? undefined;
+    return data.projets.find((projet) => projet.id_projet === id);
 }
 
 export function getOutilsCreatifs(): Outil[] {
-    return db
-        .prepare(`SELECT * FROM OUTIL WHERE type IN ('vectoriel', 'développement') ORDER BY id_outil`)
-        .all() as Outil[];
+    return data.outils.filter(
+        (outil) => outil.type === "vectoriel" || outil.type === "développement",
+    );
 }
 
 export function getOutilsByType(type: string): Outil[] {
-    return db
-        .prepare('SELECT * FROM OUTIL WHERE type = ? ORDER BY id_outil')
-        .all(type) as Outil[];
+    return data.outils.filter((outil) => outil.type === type);
 }
 
 export function getActionsProjet(id: number): ActionProjet[] {
-    return db
-        .prepare('SELECT numero, titre, texte FROM ACTION WHERE id_projet = ? ORDER BY numero')
-        .all(id) as ActionProjet[];
+    return data.actions
+        .filter((action) => action.id_projet === id)
+        .map(({ numero, titre, texte }) => ({ numero, titre, texte }));
 }
 
 export function getOutilsProjet(id: number): Outil[] {
-    return db
-        .prepare(`
-            SELECT o.id_outil, o.nom, o.logo, o.type
-            FROM UTILISER u
-            JOIN OUTIL o ON o.id_outil = u.id_outil
-            WHERE u.id_projet = ?
-            ORDER BY o.id_outil
-        `)
-        .all(id) as Outil[];
+    return data.outilsProjets
+        .filter((outil) => outil.id_projet === id)
+        .map(({ id_outil, nom, logo, type }) => ({ id_outil, nom, logo, type }));
 }
