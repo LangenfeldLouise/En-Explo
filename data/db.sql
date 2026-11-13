@@ -93,11 +93,11 @@ VALUES
 INSERT INTO ACTION (id_projet, numero, titre, texte)
 VALUES
     (2, 1, 'Nom', 'Nous avons construit Onyoz via plusieurs idées : le prix, l’accéssibilité, et le choix.La où nous étions d’abord parties sur un jeu de mot, j’ai mis en avant un nom plus commun et avec un sujet précis, comme un object ou un légume.
-Dans nôtre cas, l’élement qui ce rapprochait le plus de nos objectifs etait l’ognion.'),
+Dans nôtre cas, l’élement qui ce rapprochait le plus de nos objectifs était l’oignion.'),
     (2, 2, 'Couleurs', 'Palette très réduite : rouge-bordeaux, blanc et vert.'),
     (2, 3, 'Logo', 'Pour le logo nous avons décidé d''illustrer le sens de notre nom. Comme Onyoz viens de l’ognion, nous avons commencer à travailler avec cet aliment.
 
-Nous avons d’abord aborder l’idée de l’ognion blanc et rouge. Mais avec l’ognion nouveaux, j’ai pu expériementer des grandes formes, simple et significative, qui, après quelques modifications, donna le logo d’Onyoz.'),
+Nous avons d’abord aborder l’idée de l’oignion blanc et rouge. Mais avec l’oignion nouveaux, j’ai pu expériementer des grandes formes, simple et significative, qui, après quelques modifications, donna le logo d’Onyoz.'),
     (2, 4, 'Maquette', 'Pour la maquette les tâches étaient réparties, je me suis donc occupés de la maquette desktop, tout en aidant sur la version mobile.'),
     (1, 1, 'Couleurs', 'J’ai utilisée des couleurs qui plaisait à mon entourage, également à moi en ce qui concerne mon fond d’écran.'),
     (1, 2, 'Dégradés', 'Jeu d''ombres et de lumière autour de la lune.'),
